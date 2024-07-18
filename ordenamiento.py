@@ -1,4 +1,5 @@
 from cancion import Cancion
+from lista_reproduccion import ListaReproduccion
 
 class Nodo:
     def __init__(self, cancion):
@@ -7,9 +8,66 @@ class Nodo:
         self.anterior = None
 
 class Ordenamiento:
-    #Ordenamiento y manipulación
-    def cambiar_orden(self, posicion_actual, nueva_posicion): #Se crea el método para cambiar el órden
-        if 0 <= posicion_actual < len(self.canciones) and 0 <= nueva_posicion < len(self.canciones):
-            cancion = self.canciones[posicion_actual]
-            del self.canciones[posicion_actual]
-            self.canciones.insert(nueva_posicion, cancion)
+    #Se utiliza lista doblemente enlazada
+    def __init__(self):
+        self.cabeza = None
+        self.cola = None
+        self.longitud = 0
+
+    def obtener_nodo(self, indice): #Obtiene el nodo 
+        if indice < 0 or indice >= self.longitud:
+            return None
+        if indice < self.longitud // 2:
+            actual = self.cabeza
+            for _ in range(indice):
+                actual = actual.siguiente
+        else:
+            actual = self.cola
+            for _ in range(self.longitud - 1, indice, -1):
+                actual = actual.anterior
+        return actual
+    
+    def cambiar_orden(self, posicion_actual, nueva_posicion):
+        if posicion_actual < 0 or posicion_actual >= self.longitud or \
+           nueva_posicion < 0 or nueva_posicion >= self.longitud or \
+           posicion_actual == nueva_posicion:
+            return
+
+        nodo_actual = self.obtener_nodo(posicion_actual)
+        if not nodo_actual:
+            return
+
+        #Remueve el nodo de su posición actual
+        if nodo_actual.anterior:
+            nodo_actual.anterior.siguiente = nodo_actual.siguiente
+        else:
+            self.cabeza = nodo_actual.siguiente
+
+        if nodo_actual.siguiente:
+            nodo_actual.siguiente.anterior = nodo_actual.anterior
+        else:
+            self.cola = nodo_actual.anterior
+
+        #Inserta el nodo en la nueva posición, cambiando el orden
+        if nueva_posicion == 0:
+            nodo_actual.anterior = None
+            nodo_actual.siguiente = self.cabeza
+            self.cabeza.anterior = nodo_actual
+            self.cabeza = nodo_actual
+        elif nueva_posicion == self.longitud - 1:
+            nodo_actual.siguiente = None
+            nodo_actual.anterior = self.cola
+            self.cola.siguiente = nodo_actual
+            self.cola = nodo_actual
+        else:
+            nodo_destino = self.obtener_nodo(nueva_posicion)
+            nodo_actual.anterior = nodo_destino.anterior
+            nodo_actual.siguiente = nodo_destino
+            nodo_destino.anterior.siguiente = nodo_actual
+            nodo_destino.anterior = nodo_actual
+
+        def imprimir_lista(self): #Metodo de prueba
+            actual = self.cabeza
+            while actual:
+                print(f"{actual.cancion.titulo} - {actual.cancion.artista}")
+                actual = actual.siguiente
