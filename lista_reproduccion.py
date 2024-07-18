@@ -38,7 +38,14 @@ class ListaReproduccion:
         return True
     
     def ajustar_memoria(self):
-        
+        if self.tamaño < 0:
+            self.tamaño = 0
+            
     def __len__(self):   
-        
+         return self.tamaño
+     
     def mostrar_lista(self):
+        actual = self.cabeza
+        while actual:
+            print(f"Título: {actual.cancion.titulo}, Artista: {actual.cancion.artista}")
+            actual = actual.siguiente
