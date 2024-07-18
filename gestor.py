@@ -6,7 +6,7 @@ class GestorMusica:
     def __init__(self):
         self.cabeza = None
         self.cola = None
-        self.tamaño = 0
+        self.longitud = 0
         
     def agregar_cancion(self, cancion):
         nuevo_nodo = Nodo(cancion)
@@ -17,7 +17,7 @@ class GestorMusica:
             self.cola.siguiente = nuevo_nodo
             nuevo_nodo.anterior = self.cola
             self.cola = nuevo_nodo
-        self.tamaño += 1
+        self.longitud += 1
         self.ajustar_memoria()
         
     def eliminar_cancion(self, titulo):
@@ -34,16 +34,16 @@ class GestorMusica:
             self.cabeza = actual.siguiente
         if actual == self.cola:
             self.cola = actual.anterior
-        self.tamaño -= 1
+        self.longitud -= 1
         self.ajustar_memoria()
         return True
     
     def ajustar_memoria(self):
-        if self.tamaño < 0:
-            self.tamaño = 0
+        if self.longitud < 0:
+            self.longitud = 0
             
     def __len__(self):   
-         return self.tamaño
+         return self.longitud
      
     def mostrar_lista(self):
         actual = self.cabeza
@@ -52,11 +52,6 @@ class GestorMusica:
             actual = actual.siguiente
 
     #Cambiar orden
-    def __init__(self):
-        self.cabeza = None
-        self.cola = None
-        self.longitud = 0
-
     def obtener_nodo(self, indice): #Obtiene el nodo 
         if indice < 0 or indice >= self.longitud:
             return None
