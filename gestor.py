@@ -1,5 +1,5 @@
 from cancion import Cancion
-from nodos import Nodo, NodoDLE
+from nodos import Nodo
 
 class GestorMusica:
     #Lista de reproduccion
