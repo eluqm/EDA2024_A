@@ -3,6 +3,9 @@ from nodo import Nodo
 
 class ListaReproduccion:
     def __init__(self):
+        self.cabeza = None
+        self.cola = None
+        self.tamaño = 0
         
     def agregar_cancion(self, cancion):
         
