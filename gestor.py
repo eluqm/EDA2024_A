@@ -104,8 +104,8 @@ class GestorMusica:
             nodo_destino.anterior.siguiente = nodo_actual
             nodo_destino.anterior = nodo_actual
 
-        def imprimir_lista(self): #Metodo de prueba
-            actual = self.cabeza
-            while actual:
-                print(f"{actual.cancion.titulo} - {actual.cancion.artista}")
-                actual = actual.siguiente
+    def imprimir_lista(self): #Metodo de prueba
+        actual = self.cabeza
+        while actual:
+            print(f"{actual.cancion.titulo} - {actual.cancion.artista}")
+            actual = actual.siguiente
