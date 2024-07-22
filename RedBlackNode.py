@@ -70,6 +70,40 @@ class RedBlackTree:
             return
 
         self.fix_insert(node)
+
+    def fix_insert(self, k):
+        while k.parent.color == 'red':
+            if k.parent == k.parent.parent.left:
+                u = k.parent.parent.right
+                if u.color == 'red':
+                    u.color = 'black'
+                    k.parent.color = 'black'
+                    k.parent.parent.color = 'red'
+                    k = k.parent.parent
+                else:
+                    if k == k.parent.right:
+                        k = k.parent
+                        self.left_rotate(k)
+                    k.parent.color = 'black'
+                    k.parent.parent.color = 'red'
+                    self.right_rotate(k.parent.parent)
+            else:
+                u = k.parent.parent.left
+                if u.color == 'red':
+                    u.color = 'black'
+                    k.parent.color = 'black'
+                    k.parent.parent.color = 'red'
+                    k = k.parent.parent
+                else:
+                    if k == k.parent.left:
+                        k = k.parent
+                        self.right_rotate(k)
+                    k.parent.color = 'black'
+                    k.parent.parent.color = 'red'
+                    self.left_rotate(k.parent.parent)
+            if k == self.root:
+                break
+        self.root.color = 'black'    
     
     def in_order_traversal(self, ascendente):
         res = []
