@@ -1,5 +1,6 @@
 from cancion import Cancion
 from nodos import Nodo
+from RedBlackNode import RedBlackTree
 import csv
 import random
 
@@ -128,24 +129,20 @@ class GestorMusica:
             print(f"Reproduciendo: {cancion.titulo} - {cancion.artista}")
 
     def ordenar_lista(self, clave, ascendente=True):
-        canciones = []
+        rb_tree = RedBlackTree()
+
         actual = self.cabeza
         while actual:
-            canciones.append(actual.cancion)
+            rb_tree.insert(actual.cancion, clave)
             actual = actual.siguiente
-        
-        if clave == 'popularidad':
-            canciones.sort(key=lambda x: x.popularidad, reverse=not ascendente)
-        elif clave == 'año':
-            canciones.sort(key=lambda x: x.año, reverse=not ascendente)
-        elif clave == 'duracion':
-            canciones.sort(key=lambda x: x.duracion, reverse=not ascendente)
-        
-        self.cabeza = None
+
+            canciones_ordenadas = rb_tree.in_order_traversal(ascendente)
+
+            self.cabeza = None
         self.cola = None
         self.longitud = 0
         
-        for cancion in canciones:
+        for cancion in canciones_ordenadas:
             self.agregar_cancion(cancion)
 
     def cargar_csv(self, archivo_csv):
