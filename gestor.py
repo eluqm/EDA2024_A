@@ -127,6 +127,27 @@ class GestorMusica:
             cancion = canciones[indice]
             print(f"Reproduciendo: {cancion.titulo} - {cancion.artista}")
 
+    def ordenar_lista(self, clave, ascendente=True):
+        canciones = []
+        actual = self.cabeza
+        while actual:
+            canciones.append(actual.cancion)
+            actual = actual.siguiente
+        
+        if clave == 'popularidad':
+            canciones.sort(key=lambda x: x.popularidad, reverse=not ascendente)
+        elif clave == 'año':
+            canciones.sort(key=lambda x: x.año, reverse=not ascendente)
+        elif clave == 'duracion':
+            canciones.sort(key=lambda x: x.duracion, reverse=not ascendente)
+        
+        self.cabeza = None
+        self.cola = None
+        self.longitud = 0
+        
+        for cancion in canciones:
+            self.agregar_cancion(cancion)
+
     def cargar_csv(self, archivo_csv):
         with open(archivo_csv, 'r') as archivo:
             lector = csv.DictReader(archivo)
