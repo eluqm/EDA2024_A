@@ -1,5 +1,6 @@
 from cancion import Cancion
 from nodos import Nodo
+import csv
 
 class GestorMusica:
     #Lista de reproduccion
@@ -109,3 +110,16 @@ class GestorMusica:
         while actual:
             print(f"{actual.cancion.titulo} - {actual.cancion.artista}")
             actual = actual.siguiente
+
+    def cargar_csv(self, archivo_csv):
+        with open(archivo_csv, 'r') as archivo:
+            lector = csv.DictReader(archivo)
+            for fila in lector:
+                cancion = Cancion(
+                    fila['track_name'],
+                    fila['artist_name'],
+                    int(fila['year']),
+                    int(fila['duration_ms']),
+                    int(fila['popularity'])
+                )
+                self.agregar_cancion(cancion)
