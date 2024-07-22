@@ -1,5 +1,10 @@
+import sys
 from cancion import Cancion
 from gestor import GestorMusica
+from MainWindow import MainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QStackedWidget
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import Qt
 
 lista = GestorMusica()
 lista.agregar_cancion(Cancion("Canción 1", "Artista A", 2020, 180, 85, "Alta"))
@@ -32,3 +37,8 @@ lista.imprimir_lista()
 print("\nLista ordenada por duración (descendente):")
 lista.ordenar_lista('duracion', ascendente=False)
 lista.imprimir_lista()
+
+app = QApplication(sys.argv)
+mainWindow = MainWindow()
+mainWindow.show()
+sys.exit(app.exec_())
