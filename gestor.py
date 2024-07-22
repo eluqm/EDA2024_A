@@ -1,6 +1,7 @@
 from cancion import Cancion
 from nodos import Nodo
 import csv
+import random
 
 class GestorMusica:
     #Lista de reproduccion
@@ -110,6 +111,21 @@ class GestorMusica:
         while actual:
             print(f"{actual.cancion.titulo} - {actual.cancion.artista}")
             actual = actual.siguiente
+    
+    def reproduccion_aleatoria(self):
+        if self.longitud == 0:
+            return
+        
+        indices = list(range(self.longitud))
+        random.shuffle(indices)
+        actual = self.cabeza
+        canciones = []
+        while actual:
+            canciones.append(actual.cancion)
+            actual = actual.siguiente
+        for indice in indices:
+            cancion = canciones[indice]
+            print(f"Reproduciendo: {cancion.titulo} - {cancion.artista}")
 
     def cargar_csv(self, archivo_csv):
         with open(archivo_csv, 'r') as archivo:
