@@ -17,3 +17,18 @@ lista.imprimir_lista()
 lista.cambiar_orden(3, 0)
 print("\nDespués de cambiar de orden (3 a 0):")
 lista.imprimir_lista()
+
+print("\nReproducción aleatoria:")
+lista.reproduccion_aleatoria()
+
+print("\nLista ordenada por popularidad (descendente):")
+lista.ordenar_lista('popularidad', ascendente=False)
+lista.imprimir_lista()
+
+print("\nLista ordenada por año (ascendente):")
+lista.ordenar_lista('año', ascendente=True)
+lista.imprimir_lista()
+
+print("\nLista ordenada por duración (descendente):")
+lista.ordenar_lista('duracion', ascendente=False)
+lista.imprimir_lista()
