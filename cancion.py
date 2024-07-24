@@ -6,3 +6,6 @@ class Cancion:
         self.año = año
         self.duracion = duracion
         self.popularidad = popularidad
+
+    def __str__(self):
+        return f"{self.titulo} - {self.artista} - {self.album} - {self.duracion}"
