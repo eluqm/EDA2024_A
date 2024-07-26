@@ -5,6 +5,3 @@ class Cancion:
         self.año = año
         self.duracion = duracion
         self.popularidad = popularidad
-
-    def __repr__(self):
-        return f"{self.titulo} - {self.artista}"
