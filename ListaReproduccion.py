@@ -60,15 +60,6 @@ class ListaReproduccion:
     #Método para cambiar orden
     def cambiar_orden(self, posicion_actual, nueva_posicion):
         DobleListaEnlazada.cambiar_orden(self, posicion_actual, nueva_posicion)
-
-    def obtener_nodo(self, indice):
-        return DobleListaEnlazada.obtener_nodo(self, indice)
-
-    def ajustar_memoria(self):
-        DobleListaEnlazada.ajustar_memoria(self)
-
-    def __len__(self):   
-        return self.longitud
     
     #Método para cambiar orden por criterio
     def ordenar_por_criterio(self, criterio):
