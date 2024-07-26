@@ -1,6 +1,9 @@
+import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QStackedWidget
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
+from Gestor import GestorMusica
+from Cancion import Cancion
 
 class MainWindow(QMainWindow):
     def __init__(self):
