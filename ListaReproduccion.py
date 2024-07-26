@@ -78,7 +78,7 @@ class ListaReproduccion:
     def obtener_nodo(self, indice): #Obtiene el nodo 
         if indice < 0 or indice >= self.longitud:
             return None
-        if indice < self.longitud // 2:
+        if indice <= self.longitud // 2:
             actual = self.cabeza
             for _ in range(indice):
                 actual = actual.siguiente
