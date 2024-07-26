@@ -118,7 +118,7 @@ class VentanaPlaylist(QMainWindow):
         if not selected_items:
             return
         for item in selected_items:
-            title = item.text().split(' - ')[0]  # Asume que el formato es 'Título - Artista'
+            title = item.text().split(' - ')[0] 
             self.lista_canciones_ui.takeItem(self.lista_canciones_ui.row(item))
             self.gestor.eliminar_cancion(title)
     

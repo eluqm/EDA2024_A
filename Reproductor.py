@@ -77,11 +77,8 @@ class Reproductor(QWidget):
     def actualizar_info(self, cancion):
         self.cancion_actual = cancion
         self.infoLabel.setText(f"{self.cancion_actual.titulo} - {self.cancion_actual.artista}")
-        # Actualizar la imagen de la canción si tienes una fuente de imagen adecuada
-        
-        if self.cancion_actual:
-            self.progressSlider.setRange(0, self.cancion_actual.duracion_ms // 1000)  # Supone duración en milisegundos
-            self.timeLabel.setText(f"00:00 / {self.formatear_duracion(self.cancion_actual.duracion_ms // 1000)}")
+        self.progressSlider.setRange(0, self.cancion_actual.duracion)  # Duración en segundos
+        self.timeLabel.setText(f"00:00 / {self.formatear_duracion(self.cancion_actual.duracion)}")
 
     def reproducir(self):
         if not self.cancion_actual:
