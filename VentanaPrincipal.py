@@ -27,7 +27,8 @@ class VentanaPrincipal(QWidget):
                 detalles = {
                     'year': int(row['year']),
                     'duration_ms': int(row['duration_ms']),
-                    'genre': row['genre']
+                    'genre': row['genre'],
+                    'popularity': int(row.get('popularity', 0))  
                 }
                 self.arbol.insertar(clave, detalles) 
 
@@ -171,7 +172,7 @@ class VentanaPrincipal(QWidget):
                 # Comprobar si el nodo actual cumple con los criterios de búsqueda
                 if artist in nodo.clave[0].lower() and track in nodo.clave[1].lower():
                     if year == 'Todos los años' or year == str(nodo.detalles['year']):
-                        results.append((nodo.clave[1], nodo.clave[0], nodo.detalles['genre'], nodo.detalles['year'], nodo.detalles['duration_ms']))
+                        results.append((nodo.clave[1], nodo.clave[0], nodo.detalles['genre'], nodo.detalles['year'], nodo.detalles['duration_ms'], nodo.detalles['popularity']))
                 # Buscar en subárboles
                 buscar_canciones(nodo.izquierda)
                 buscar_canciones(nodo.derecha)
@@ -183,9 +184,9 @@ class VentanaPrincipal(QWidget):
         self.resultList.clear()
 
         # Llenar la lista con los resultados filtrados
-        for track_name, artist_name, genre, year, duration_ms in results:
+        for track_name, artist_name, genre, year, duration_ms, popularity in results:
             duration = f"{duration_ms // 60000}:{(duration_ms % 60000) // 1000:02d}"
-            item_text = f"Canción: {track_name} - Artista: {artist_name} - Género: {genre} - Año: {year}"
+            item_text = f"Canción: {track_name} - Artista: {artist_name} - Género: {genre} - Año: {year} - Popularidad: {popularity}"
             self.resultList.addItem(item_text)
 
     def addToPlaylist(self):
@@ -207,18 +208,17 @@ class VentanaPrincipal(QWidget):
             if detalles:
                 year = detalles['year']
                 duration_ms = detalles['duration_ms']
+                popularity = detalles['popularity']  # Obtener popularidad
 
                 # Convertir la duración de milisegundos a minutos y segundos
                 duration = f"{duration_ms // 60000}:{(duration_ms % 60000) // 1000:02d}"
 
                 # Crear un objeto Cancion y añadirlo a la lista de reproducción
-                cancion = Cancion(track_name, artist_name, year, duration)
+                cancion = Cancion(track_name, artist_name, year, duration, popularity)
                 self.gestor.agregar_cancion(cancion)
                 print(f"Agregada a la playlist: {item.text()}")  # Para depuración
 
         QMessageBox.information(self, 'Éxito', 'Canciones añadidas a la playlist.')
-
-
 
     def showPlaylist(self):
         self.playlistWindow = VentanaPlaylist(self.gestor, self)
