@@ -1,4 +1,7 @@
-from nodos import Nodo
+from Nodos import Nodo
+from ArbolRN import ArbolRojoNegro
+from DobleLE import DobleListaEnlazada
+import random
 
 class ListaReproduccion:
     def __init__(self):
@@ -6,6 +9,7 @@ class ListaReproduccion:
         self.cola = None
         self.longitud = 0
 
+    #Agregar una nueva canción, mediante el uso de List
     def agregar_cancion(self, cancion):
         nuevo_nodo = Nodo(cancion)
         if not self.cabeza:
@@ -18,6 +22,7 @@ class ListaReproduccion:
         self.longitud += 1
         self.ajustar_memoria()
 
+    #Eliminar una nueva canción, mediante el uso de List
     def eliminar_cancion(self, titulo):
         actual = self.cabeza
         while actual and actual.cancion.titulo != titulo:
@@ -36,61 +41,61 @@ class ListaReproduccion:
         self.ajustar_memoria()
         return True
     
-    def cambiar_orden(self, posicion_actual, nueva_posicion):
-        if posicion_actual < 0 or posicion_actual >= self.longitud or \
-           nueva_posicion < 0 or nueva_posicion >= self.longitud or \
-           posicion_actual == nueva_posicion:
+    #Método para manejar una reproducción aleatoria
+    def reproduccion_aleatoria(self):
+        if self.longitud == 0:
             return
-
-        nodo_actual = self.obtener_nodo(posicion_actual)
-        if not nodo_actual:
-            return
-
-        #Remueve el nodo de su posición actual
-        if nodo_actual.anterior:
-            nodo_actual.anterior.siguiente = nodo_actual.siguiente
-        else:
-            self.cabeza = nodo_actual.siguiente
-
-        if nodo_actual.siguiente:
-            nodo_actual.siguiente.anterior = nodo_actual.anterior
-        else:
-            self.cola = nodo_actual.anterior
-
-        #Inserta el nodo en la nueva posición, cambiando el orden
-        if nueva_posicion == 0:
-            nodo_actual.anterior = None
-            nodo_actual.siguiente = self.cabeza
-            self.cabeza.anterior = nodo_actual
-            self.cabeza = nodo_actual
-        elif nueva_posicion == self.longitud - 1:
-            nodo_actual.siguiente = None
-            nodo_actual.anterior = self.cola
-            self.cola.siguiente = nodo_actual
-            self.cola = nodo_actual
-        else:
-            nodo_destino = self.obtener_nodo(nueva_posicion)
-            nodo_actual.anterior = nodo_destino.anterior
-            nodo_actual.siguiente = nodo_destino
-            nodo_destino.anterior.siguiente = nodo_actual
-            nodo_destino.anterior = nodo_actual
-
-    def obtener_nodo(self, indice): #Obtiene el nodo 
-        if indice < 0 or indice >= self.longitud:
-            return None
-        if indice <= self.longitud // 2:
-            actual = self.cabeza
-            for _ in range(indice):
-                actual = actual.siguiente
-        else:
-            actual = self.cola
-            for _ in range(self.longitud - 1, indice, -1):
-                actual = actual.anterior
-        return actual
+        
+        indices = list(range(self.longitud))
+        random.shuffle(indices)
+        actual = self.cabeza
+        canciones = []
+        while actual:
+            canciones.append(actual.cancion)
+            actual = actual.siguiente
+        for indice in indices:
+            cancion = canciones[indice]
+            print(f"Reproduciendo: {cancion.titulo} - {cancion.artista}")
     
+    #Método para cambiar orden
+    def cambiar_orden(self, posicion_actual, nueva_posicion):
+        DobleListaEnlazada.cambiar_orden(self, posicion_actual, nueva_posicion)
+
+    def obtener_nodo(self, indice):
+        return DobleListaEnlazada.obtener_nodo(self, indice)
+
     def ajustar_memoria(self):
-        if self.longitud < 0:
-            self.longitud = 0
+        DobleListaEnlazada.ajustar_memoria(self)
 
     def __len__(self):   
         return self.longitud
+    
+    #Método para cambiar orden por criterio
+    def ordenar_por_criterio(self, criterio):
+        """
+        Este método reordena la lista de reproducción según el criterio especificado
+        utilizando un Árbol Rojo-Negro.
+        
+        Args:
+            criterio (str): El criterio de ordenación ('titulo', 'artista', 'año', etc.)
+        """
+        arbol = ArbolRojoNegro(criterio)
+        
+        # Inserta todas las canciones en el árbol
+        actual = self.cabeza
+        while actual:
+            arbol.insertar(actual.cancion)
+            actual = actual.siguiente
+        
+        # Reconstruye la lista ordenada
+        self.cabeza = None
+        self.cola = None
+        self.longitud = 0
+        
+        def recorrer_arbol(nodo):
+            if nodo:
+                recorrer_arbol(nodo.izquierda)
+                self.agregar_cancion(nodo.cancion)
+                recorrer_arbol(nodo.derecha)
+        
+        recorrer_arbol(arbol.raiz)
