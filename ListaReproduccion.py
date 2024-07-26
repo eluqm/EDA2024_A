@@ -1,4 +1,4 @@
-from Nodos import Nodo
+from nodos import Nodo
 from ArbolRN import ArbolRojoNegro
 from DobleLE import DobleListaEnlazada
 import random

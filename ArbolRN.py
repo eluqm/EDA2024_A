@@ -1,4 +1,4 @@
-from Nodos import NodoRN
+from nodos import NodoRN
 
 class ArbolRojoNegro:
     def __init__(self, criterio):

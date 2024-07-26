@@ -1,4 +1,4 @@
-import Cancion
+import cancion
 import csv
 
 class GestorMusica:
@@ -18,7 +18,7 @@ class GestorMusica:
         with open(archivo_csv, 'r') as archivo:
             lector = csv.DictReader(archivo)
             for fila in lector:
-                cancion = Cancion(
+                cancion = cancion(
                     fila['track_name'],
                     fila['artist_name'],
                     int(fila['year']),
