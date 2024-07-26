@@ -2,6 +2,7 @@ from Nodos import Nodo
 from ArbolRN import ArbolRojoNegro
 from DobleLE import DobleListaEnlazada
 import random
+import heapq
 
 class ListaReproduccion:
     def __init__(self):
@@ -46,15 +47,16 @@ class ListaReproduccion:
         if self.longitud == 0:
             return
         
-        indices = list(range(self.longitud))
-        random.shuffle(indices)
+        heap_canciones = []
         actual = self.cabeza
-        canciones = []
         while actual:
-            canciones.append(actual.cancion)
+            # Usar un número aleatorio como prioridad
+            prioridad = random.random()
+            heapq.heappush(heap_canciones, (prioridad, actual.cancion))
             actual = actual.siguiente
-        for indice in indices:
-            cancion = canciones[indice]
+        
+        while heap_canciones:
+            _, cancion = heapq.heappop(heap_canciones)
             print(f"Reproduciendo: {cancion.titulo} - {cancion.artista}")
     
     #Método para cambiar orden
