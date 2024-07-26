@@ -1,3 +1,5 @@
+#la clase Nodo, se usa para una lista doblemente enlazada
+
 class Nodo:
     def __init__(self, cancion):
         self.cancion = cancion
