@@ -125,11 +125,14 @@ class VentanaPlaylist(QMainWindow):
     def reproducirAleatorio(self):
         canciones = self.gestor.reproduccion_aleatoria()
         if canciones:
+            print("Canciones seleccionadas para reproducción aleatoria:")
+            for cancion in canciones:
+                print(f"{cancion.titulo} - {cancion.artista} - Popularidad: {cancion.popularidad}")
+            
             cancion = canciones[0]  # Reproduce la primera canción seleccionada
             self.reproductorDialog = Reproductor(cancion, self)
             self.reproductorDialog.show()
 
-            # Configurar el temporizador para actualizar la barra de progreso (simulación)
             self.timer = QTimer()
             self.timer.timeout.connect(self.actualizar_progreso)
             self.timer.start(1000)  # Actualiza cada segundo
@@ -149,5 +152,10 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     gestor = GestorMusica()
     window = VentanaPlaylist(gestor)
+    titulo = input("Ingrese el título de la canción: ")
+    nueva_popularidad = int(input("Ingrese la nueva popularidad de la canción: "))
+    gestor.cambiar_orden(titulo, nueva_popularidad)
+    print("Popularidad cambiada exitosamente.")
     window.show()
     sys.exit(app.exec_())
+
