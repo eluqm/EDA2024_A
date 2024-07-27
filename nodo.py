@@ -5,6 +5,14 @@ class Nodo:
         self.izquierda = None
         self.derecha = None
 
+class NodoRN:
+    def __init__(self, cancion, color="rojo"):
+        self.cancion = cancion
+        self.color = color
+        self.izquierda = None
+        self.derecha = None
+        self.padre = None
+
 class ArbolCanciones:
     def __init__(self):
         self.raiz = None
