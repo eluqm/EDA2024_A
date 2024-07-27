@@ -1,6 +1,7 @@
 import random
 import heapq
 from nodoLD import DobleListaEnlazada
+from ArbolRN import ArbolRojoNegro
 class GestorMusica:
     def __init__(self):
         self.lista_canciones = DobleListaEnlazada()
@@ -43,3 +44,22 @@ class GestorMusica:
         for cancion in canciones:
             nueva_lista.agregar_cancion(cancion)  # Cambiado de append a agregar_cancion
         self.lista_canciones = nueva_lista  # Reemplazar la lista con la nueva lista ordenada
+
+    def cambiar_orden(self, cancion_titulo, nueva_popularidad):
+        # Encuentra la canción y cambia su popularidad
+        if cancion_titulo in self.canciones_dict:
+            cancion = self.canciones_dict[cancion_titulo]
+            cancion.popularidad = nueva_popularidad
+
+            # Reconstruir el árbol rojo-negro con la nueva popularidad
+            self.arbol = ArbolRojoNegro('popularidad')
+            for cancion in self.canciones_dict.values():
+                self.arbol.insertar(cancion)
+
+            # Reconstruir la lista doblemente enlazada ordenada por popularidad
+            canciones = sorted(self.canciones_dict.values(), key=lambda c: c.popularidad, reverse=True)
+            self.lista_canciones = DobleListaEnlazada()
+            for cancion in canciones:
+                self.lista_canciones.agregar_cancion(cancion)
+        else:
+            print(f"Canción con título '{cancion_titulo}' no encontrada.")
